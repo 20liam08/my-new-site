@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>صفحه مدیریت - Sholl Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 onclick="window.location.href='index.html'" style="cursor: pointer;">Sholl Shop - مدیریت</h1>
+        <nav>
+            <a href="index.html">صفحه اصلی</a>
+            <a href="products.html">محصولات</a>
+            <a href="cart.html">سبد خرید</a>
+            <a href="admin.html">سفارش‌ها</a>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <!-- فرم ورود به پنل مدیریت -->
+        <div id="loginForm" class="admin-login">
+            <h2>ورود به پنل مدیریت</h2>
+            <input type="text" id="adminUser" placeholder="نام کاربری">
+            <input type="password" id="adminPass" placeholder="رمز عبور">
+            <button onclick="adminLogin()">ورود</button>
+        </div>
+
+        <!-- جدول سفارش‌ها - بعد از ورود نمایش داده میشه -->
+        <div id="ordersSection" class="orders-section" style="display: none;">
+            <h2>لیست سفارش‌ها</h2>
+            <button onclick="exportToExcel()" style="margin-bottom: 10px;">دانلود بصورت Excel</button>
+            <table id="ordersTable" border="1" class="order-table">
+                <thead>
+                    <tr>
+                        <th>نام</th>
+                        <th>موبایل</th>
+                        <th>آدرس</th>
+                        <th>روش پرداخت</th>
+                        <th>کد پیگیری</th>
+                        <th>تاریخ</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // 👁️‍🗨️ نمایش سفارش‌ها فقط اگر لاگین کرده باشه
+        window.onload = () => {
+            const isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn');
+
+            if (isAdminLoggedIn === 'true') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('ordersSection').style.display = 'block';
+
+                showOrders();
+            } else {
+                document.getElementById('ordersSection').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'block';
+            }
+        };
+
+        // 🔐 تابع ورود به پنل مدیریت
+        function adminLogin() {
+            const username = document.getElementById('adminUser').value.trim();
+            const password = document.getElementById('adminPass').value.trim();
+
+            if (username === "admin" && password === "1234") {
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                alert("ورود موفق!");
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('ordersSection').style.display = 'block';
+                showOrders();
+            } else {
+                alert("نام کاربری یا رمز اشتباه است.");
+            }
+        }
+
+        // 📋 نمایش سفارش‌ها در جدول
+        function showOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const tableBody = document.querySelector("#ordersTable tbody");
+
+            if (orders.length === 0) {
+                tableBody.innerHTML = "<tr><td colspan='6'>سفارشی وجود ندارد.</td></tr>";
+                return;
+            }
+
+            orders.forEach(order => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${order.name}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.address}</td>
+                    <td>${order.payment === 'online' ? 'آنلاین' : 'در محل'}</td>
+                    <td>${order.trackingCode}</td>
+                    <td>${order.date}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // 📥 دانلود بصورت CSV (اکسل)
+        function exportToExcel() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            if (orders.length === 0) {
+                alert("سفارشی برای دانلود وجود ندارد.");
+                return;
+            }
+
+            let csvContent = "نام,موبایل,آدرس,روش پرداخت,کد پیگیری,تاریخ\n";
+
+            orders.forEach(order => {
+                csvContent += `${order.name},${order.phone},"${order.address}",${order.payment === 'online' ? 'آنلاین' : 'در محل'},${order.trackingCode},${order.date}\n`;
+            });
+
+            // ⬇️ دانلود فایل CSV
+            const hiddenLink = document.createElement("a");
+            hiddenLink.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent);
+            hiddenLink.download = "سفارشات.csv";
+            document.body.appendChild(hiddenLink);
+            hiddenLink.click();
+            document.body.removeChild(hiddenLink);
+        }
+    </script>
+</body>
+</html>

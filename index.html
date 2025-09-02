@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>Sholl Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1 onclick="window.location.href='index.html'" style="cursor: pointer;">Sholl Shop</h1>
+        <nav>
+            <a href="index.html">صفحه اصلی</a>
+            <a href="products.html">محصولات</a>
+            <a href="cart.html">سبد خرید</a>
+            <a href="login.html">ورود</a>
+            <a href="register.html">ثبت نام</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>شال و روسری‌های پیشنهادی</h2>
+        <div id="productList" class="products-grid"></div>
+    </main>
+
+    <!-- بخش محصولات ویژه -->
+    <section class="featured-products">
+        <h2>محصولات ویژه</h2>
+        <div id="featuredList" class="products-grid"></div>
+    </section>
+
+    <!-- دکمه ورود به مدیریت -->
+    <div class="admin-login-link">
+        <a href="admin.html">ورود به پنل مدیریت</a>
+    </div>
+
+    <!-- AI Button -->
+    <div class="ai-button" onclick="toggleAIChat()">
+        🤖 هوش مصنوعی
+    </div>
+
+    <!-- Chat Box -->
+    <div id="aiChatBox" class="ai-chat-box">
+        <div class="chat-header">ربات Sholl Shop</div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-footer">
+            <input type="text" id="userQuestion" placeholder="سوال خودت رو بنویس...">
+            <button onclick="sendUserQuestion()">ارسال</button>
+        </div>
+
+        <!-- FAQ Buttons -->
+        <div class="faq-buttons">
+            <p><strong>سوالات متداول:</strong></p>
+            <button onclick="autoAsk(this)" data-question="چطور اندازه مناسب شال رو انتخاب کنم؟">چطور اندازه مناسب شال رو انتخاب کنم؟</button>
+            <button onclick="autoAsk(this)" data-question="بهترین نوع شال برای تابستان چیست؟">بهترین نوع شال برای تابستان چیست؟</button>
+            <button onclick="autoAsk(this)" data-question="چطور شال را تمیز کنم؟">چطور شال را تمیز کنم؟</button>
+            <button onclick="autoAsk(this)" data-question="آیا شال ها قابل تعویض هستند؟">آیا شال ها قابل تعویض هستند؟</button>
+            <button onclick="autoAsk(this)" data-question="چه رنگ‌هایی را برای روسری انتخاب کنم؟">چه رنگ‌هایی را برای روسری انتخاب کنم؟</button>
+            <button onclick="autoAsk(this)" data-question="قیمت شال چقدره؟">قیمت شال چقدره؟</button>
+            <button onclick="autoAsk(this)" data-question="روسری چه زمانی استفاده میشه؟">روسری چه زمانی استفاده میشه؟</button>
+            <button onclick="autoAsk(this)" data-question="چه موقعیت‌هایی مناسب شال هستند؟">چه موقعیت‌هایی مناسب شال هستند؟</button>
+            <button onclick="autoAsk(this)" data-question="چطور شال رو دوره کنم؟">چطور شال رو دوره کنم؟</button>
+            <button onclick="autoAsk(this)" data-question="چه شالی برای عروسی مناسبه؟">چه شالی برای عروسی مناسبه؟</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p><strong>آدرس:</strong> تهران، خیابان ولیعصر، پلاک 123</p>
+            <p><strong>ایمیل:</strong> <a href="mailto:info@shollshop.com">info@shollshop.com</a></p>
+            <p><strong>تلفن:</strong> 021-12345678</p>
+        </div>
+
+        <div class="quote-button">
+            <button onclick="window.location.href='quote.html'">درخواست نقل‌قول</button>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
